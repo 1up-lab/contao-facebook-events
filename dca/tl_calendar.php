@@ -67,6 +67,20 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] += array(
         'reference'               => &$GLOBALS['TL_LANG']['MSC'],
         'sql'                     => "varchar(32) NOT NULL default ''"
     ),
+    'facebook_author' => array
+    (
+        'label'                   => &$GLOBALS['TL_LANG']['tl_calendar']['facebook_author'],
+        'default'                 => BackendUser::getInstance()->id,
+        'exclude'                 => true,
+        'filter'                  => true,
+        'sorting'                 => true,
+        'flag'                    => 1,
+        'inputType'               => 'select',
+        'foreignKey'              => 'tl_user.name',
+        'eval'                    => array('doNotCopy'=>true, 'chosen'=>true, 'mandatory'=>true, 'includeBlankOption'=>true),
+        'sql'                     => "int(10) unsigned NOT NULL default '0'",
+        'relation'                => array('type'=>'hasOne', 'load'=>'eager')
+    ),
 );
 
 // Register checkbox
@@ -76,5 +90,5 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace('jumpTo;'
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'facebook_synced';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] += array
 (
-    'facebook_synced' => 'facebook_page,facebook_appid,facebook_secret,facebook_size,facebook_imagemargin,facebook_floating'
+    'facebook_synced' => 'facebook_page,facebook_appid,facebook_secret,facebook_author,facebook_size,facebook_imagemargin,facebook_floating'
 );

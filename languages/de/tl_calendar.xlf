@@ -47,6 +47,14 @@
             <trans-unit id="tl_calendar.facebook_floating.1">
                 <source>Bitte legen Sie fest, wie das Bild ausgerichtet werden soll.</source>
             </trans-unit>
+            <trans-unit id="tl_calendar.facebook_author.0">
+                <source>Author</source>
+                <target>Author</target>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_author.1">
+                <source>Please choose which user should be called author of newly created events.</source>
+                <target>Hier können Sie wählen, welcher Benutzer als Autor von neuen Events eingetragen wird.</target>
+            </trans-unit>
             <trans-unit id="tl_calendar.facebook_legend">
                 <source>Facebook Synchronization</source>
                 <source>Mit Facebook synchronisieren</source>

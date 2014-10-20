@@ -11,19 +11,13 @@ class EventProcessor
 {
     protected $guzzleClient;
     protected $database;
+    protected $config;
 
-    // config options
-    protected $calendarId;
-    protected $imageSize;
-
-    public function __construct($calendarId, $imageSize)
+    public function __construct(array $config)
     {
         $this->guzzleClient = new Client();
         $this->database = Database::getInstance();
-
-        // configuration
-        $this->calendarId = $calendarId;
-        $this->imageSize = $imageSize;
+        $this->config = $config;
     }
 
     public function process(GraphObject $data, GraphObject $image)
@@ -74,20 +68,50 @@ class EventProcessor
         return null;
     }
 
+    /**
+     * Todo: Author Id
+     *
+     * @param GraphObject $data
+     * @param GraphObject $image
+     */
     protected function createEvent(GraphObject $data, GraphObject $image)
     {
-        $start = new \DateTime($data->getProperty('start_time'));
+        $timestamps = $this->getTimestamps($data);
 
-        $this->database->prepare('INSERT INTO tl_calendar_events (pid, tstamp, title, alias, author, startTime, endTime, startDate, published, facebook_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+        // store image
+        $file = $this->writePicture($data->getProperty('id'), $image);
+
+        $this->database->prepare("
+            INSERT INTO tl_calendar_events
+                (pid, tstamp, title, alias, author, addTime, startTime, startDate, endTime, endDate, teaser, addImage, singleSRC, size, floating, imagemargin, published, facebook_id)
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+
             ->execute(
-                $this->calendarId,
+                $this->config['calendar'],
                 time(),
                 $data->getProperty('name'),
                 $this->generateAlias($data->getProperty('name')),
+
+                // Author
                 1,
-                $start->format('U'),
-                time() + 86399,
-                $start->format('U'),
+
+                // Timestamps
+                $timestamps['addTime'],
+                $timestamps['startTime'],
+                $timestamps['startDate'],
+                $timestamps['endTime'],
+                $timestamps['endDate'],
+
+                sprintf('<p>%s</p>', $data->getProperty('description')),
+
+                // Add singleSRC
+                1,
+                $file->uuid,
+                $this->config['imageSize'],
+                $this->config['imageFloating'],
+                $this->config['imageMargin'],
+
                 true,
                 $data->getProperty('id')
             )
@@ -101,7 +125,13 @@ class EventProcessor
         $eventId = $insertedEvent->next()->id;
 
         // Insert ContentElement
-        $this->database->prepare('INSERT INTO tl_content (pid, ptable, sorting, tstamp, type, headline, text, floating, sortOrder, perRow, cssID, space, com_order, com_template) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+        $this->database->prepare("
+            INSERT INTO tl_content
+                (pid, ptable, sorting, tstamp, type, headline, text, floating, sortOrder, perRow, cssID, space, com_order, com_template)
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ")
+
             ->execute(
                 $eventId,
                 'tl_calendar_events',
@@ -119,37 +149,27 @@ class EventProcessor
                 'com_default'
             )
         ;
-
-        // store image
-        $file = $this->writePicture($data->getProperty('id'), $image);
-
-        $this->database->prepare('INSERT INTO tl_content (pid, ptable, sorting, tstamp, type, headline, singleSRC, size, imagemargin, floating, sortOrder, perRow, cssID, space, com_order, com_template) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
-            ->execute(
-                $eventId,
-                'tl_calendar_events',
-                64,
-                time(),
-                'image',
-                serialize(array('unit' => 'h1', 'value' => '')),
-                $file->uuid,
-                $this->imageSize,
-                serialize(array('bottom' => '', 'left' => '', 'right' => '', 'top' => '', 'unit' => '')),
-                'above',
-                'ascending',
-                4,
-                serialize(array('', '')),
-                serialize(array('', '')),
-                'ascending',
-                'com_default'
-            )
-        ;
     }
 
     protected function updateEvent($eventObj, GraphObject $data, GraphObject $image)
     {
-        $this->database->prepare('UPDATE tl_calendar_events SET title = ? WHERE facebook_id = ?')
+        $timestamps = $this->getTimestamps($data);
+
+        $file = $this->writePicture($data->getProperty('id'), $image);
+
+        $this->database->prepare('UPDATE tl_calendar_events SET title = ?, teaser = ?, singleSRC = ?, addTime = ?, startTime = ?, startDate = ?, endTime = ?, endDate = ? WHERE facebook_id = ?')
             ->execute(
                 $data->getProperty('name'),
+                sprintf('<p>%s</p>', $data->getProperty('description')),
+                $file->uuid,
+
+                // Timestamps
+                $timestamps['addTime'],
+                $timestamps['startTime'],
+                $timestamps['startDate'],
+                $timestamps['endTime'],
+                $timestamps['endDate'],
+
                 $data->getProperty('id')
             )
         ;
@@ -160,19 +180,6 @@ class EventProcessor
                 serialize(array('unit' => 'h1', 'value' => $data->getProperty('name'))),
                 sprintf('<p>%s</p>', $data->getProperty('description')),
                 'text',
-                $eventObj->id,
-                'tl_calendar_events'
-            )
-        ;
-
-        $file = $this->writePicture($data->getProperty('id'), $image);
-
-        // Is this really necessary? Or is updating the image already enough?
-        // Update Image ContentElement
-        $this->database->prepare('UPDATE tl_content SET singleSRC = ? WHERE type = ? AND pid = ? AND ptable = ?')
-            ->execute(
-                $file->uuid,
-                'image',
                 $eventObj->id,
                 'tl_calendar_events'
             )
@@ -197,5 +204,39 @@ class EventProcessor
         $file->close();
 
         return $file->getModel();
+    }
+
+    protected function getTimestamps(GraphObject $data)
+    {
+        $start = new \DateTime($data->getProperty('start_time'));
+        $addTime = !in_array('end_time', $data->getPropertyNames()) ? '' : '1';
+
+        $offset = $start->getTimezone()->getOffset($start);
+        $startDate = new \DateTime($start->format('Y-m-d'));
+        $startDate = $startDate->modify(sprintf('+%s seconds', $offset))->format('U');
+
+        $startTime = $start;
+        $startTime = $startTime->modify(sprintf('+%s seconds', $offset))->format('U');
+
+        if (in_array('end_time', $data->getPropertyNames())) {
+            $end = new \DateTime($data->getProperty('end_time'));
+
+            $endDate = new \DateTime($end->format('Y-m-d'));
+            $endDate = $endDate->modify(sprintf('+%s seconds', $offset))->format('U');
+
+            $endTime = $end;
+            $endTime = $endTime->modify(sprintf('+%s seconds', $offset))->format('U');
+        } else {
+            $endDate = $startDate;
+            $endTime = $startTime;
+        }
+
+        return [
+            'addTime' => $addTime,
+            'startDate' => $startDate,
+            'startTime' => $startTime,
+            'endDate' => $endDate,
+            'endTime' => $endTime
+        ];
     }
 }

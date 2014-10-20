@@ -21,7 +21,7 @@ class Synchronizer
 
         $this->session = $session;
 
-        $this->processor = new EventProcessor($config['calendar'], $config['imageSize']);
+        $this->processor = new EventProcessor($config);
     }
 
     public function run()
