@@ -94,7 +94,7 @@ class EventProcessor
                 $this->generateAlias($data->getProperty('name')),
 
                 // Author
-                1,
+                $this->config['author'],
 
                 // Timestamps
                 $timestamps['addTime'],
