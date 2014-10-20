@@ -6,9 +6,6 @@ ClassLoader::addNamespaces(array(
     'Oneup\FacebookEvents\Module'
 ));
 
-/**
- * Register the classes
- */
 ClassLoader::addClasses(array
 (
 	// Classes
@@ -18,13 +15,3 @@ ClassLoader::addClasses(array
     // Modules
     'Oneup\FacebookEvents\Module\ModuleFacebookEvents' => 'system/modules/facebook-events/modules/ModuleFacebookEvents.php',
 ));
-
-
-/*
-TemplateLoader::addFiles(array
-(
-	'mod_faqlist'   => 'system/modules/faq/templates/modules',
-	'mod_faqpage'   => 'system/modules/faq/templates/modules',
-	'mod_faqreader' => 'system/modules/faq/templates/modules',
-));
-*/
