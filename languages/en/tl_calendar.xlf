@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+    <file datatype="php" original="system/modules/calendar/languages/en/tl_calendar.php" source-language="en">
+        <body>
+            <trans-unit id="tl_calendar.facebook_synced.0">
+                <source>Synchronise with Facebook</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_synced.1">
+                <source>Automatically synchronize this calendar with a calender on a Facebook page.</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_appid.0">
+                <source>Application ID</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_secret.0">
+                <source>Application Secret</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_page.0">
+                <source>Page Name</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_page.1">
+                <source>The name of your Facebook page.</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_size.0">
+                <source>Image height and image width</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_size.1">
+                <source>Hier können Sie die Abmessungen des Bildes und den Skalierungsmodus festlegen.</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_imagemargin.0">
+                <source>Image Margin</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_imagemargin.1">
+                <source>Hier können Sie den oberen, rechten, unteren und linken Bildabstand eingeben.</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_floating.0">
+                <source>Image Floating</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_floating.1">
+                <source>Bitte legen Sie fest, wie das Bild ausgerichtet werden soll.</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_legend">
+                <source>Facebook Synchronization</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
