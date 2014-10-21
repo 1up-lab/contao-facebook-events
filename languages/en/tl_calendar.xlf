@@ -44,6 +44,12 @@
             <trans-unit id="tl_calendar.facebook_author.1">
                 <source>Please choose which user should be called author of newly created events.</source>
             </trans-unit>
+            <trans-unit id="tl_calendar.facebook_update_time.0">
+                <source>Update time</source>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_update_time.1">
+                <source>For how many days should events be updated in the past? The higher this value, the more data will be transfered each update cycle.</source>
+            </trans-unit>
             <trans-unit id="tl_calendar.facebook_legend">
                 <source>Facebook Synchronization</source>
             </trans-unit>

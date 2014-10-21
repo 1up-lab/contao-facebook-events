@@ -77,9 +77,18 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] += array(
         'flag'                    => 1,
         'inputType'               => 'select',
         'foreignKey'              => 'tl_user.name',
-        'eval'                    => array('doNotCopy'=>true, 'chosen'=>true, 'mandatory'=>true, 'includeBlankOption'=>true),
+        'eval'                    => array('doNotCopy'=>true, 'chosen'=>true, 'mandatory'=>true, 'includeBlankOption'=>true, 'cols'=>4, 'tl_class'=>'w50'),
         'sql'                     => "int(10) unsigned NOT NULL default '0'",
         'relation'                => array('type'=>'hasOne', 'load'=>'eager')
+    ),
+    'facebook_update_time' => array
+    (
+        'label'                   => &$GLOBALS['TL_LANG']['tl_calendar']['facebook_update_time'],
+        'exclude'                 => true,
+        'search'                  => true,
+        'inputType'               => 'text',
+        'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'cols'=>4, 'tl_class'=>'w50'),
+        'sql'                     => "varchar(255) NOT NULL default '-1'"
     ),
 );
 
@@ -90,5 +99,5 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace('jumpTo;'
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'facebook_synced';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] += array
 (
-    'facebook_synced' => 'facebook_page,facebook_appid,facebook_secret,facebook_author,facebook_size,facebook_imagemargin,facebook_floating'
+    'facebook_synced' => 'facebook_page,facebook_appid,facebook_secret,facebook_author,facebook_update_time,facebook_size,facebook_imagemargin,facebook_floating'
 );

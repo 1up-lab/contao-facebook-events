@@ -4,6 +4,7 @@ namespace Oneup\FacebookEvents;
 
 use Facebook\FacebookSession;
 use Facebook\FacebookRequest;
+use Facebook\GraphObject;
 
 class Synchronizer
 {
@@ -30,6 +31,8 @@ class Synchronizer
 
         $data           = $graphObject->getProperty('data')->asArray();
         $paging         = $graphObject->getProperty('paging');
+
+        /** @var GraphObject $cursors */
         $cursors        = $paging->getProperty('cursors');
 
         $cursorAfter    = $cursors->getProperty('after');
@@ -41,7 +44,9 @@ class Synchronizer
             $dataNew        = $graphObject->getProperty('data');
 
             if (null === $dataNew) break;
+            if ($this->isOlderThanConfigured($dataNew->getProperty(0))) break;
 
+            /** @var GraphObject $paging */
             $paging         = $graphObject->getProperty('paging');
             $cursors        = $paging->getProperty('cursors');
 
@@ -56,7 +61,9 @@ class Synchronizer
             $dataNew        = $graphObject->getProperty('data');
 
             if (null === $dataNew) break;
+            if ($this->isOlderThanConfigured($dataNew->getProperty(0))) break;
 
+            /** @var GraphObject $paging */
             $paging         = $graphObject->getProperty('paging');
             $cursors        = $paging->getProperty('cursors');
 
@@ -71,6 +78,7 @@ class Synchronizer
         }
 
         foreach ($data as $event) {
+            var_dump($event->id);
             $detail = $this->call($event->id, null, null, false);
             $image = $this->call(sprintf('%s/picture', $event->id), null, null, false, array('redirect' => false, 'width' => 1920, 'height' => 1280));
 
@@ -100,5 +108,24 @@ class Synchronizer
         $graphObject = $request->execute()->getGraphObject();
 
         return $graphObject;
+    }
+
+    /**
+     * Check whether the provided data object is older than
+     * the configured update period.
+     *
+     * @param GraphObject $data
+     * @return bool
+     */
+    protected function isOlderThanConfigured(GraphObject $data)
+    {
+        if ($this->config['updateTime'] < 0) {
+            return false;
+        }
+
+        $start = new \DateTime($data->getProperty('start_time'));
+        $until = new \DateTime(sprintf('-%d days', $this->config['updateTime']));
+
+        return $start < $until;
     }
 }

@@ -12,7 +12,7 @@ class ModuleFacebookEvents extends \Module
         $database = Database::getInstance();
         $calendars = $database->prepare("
             SELECT
-                id, facebook_appid, facebook_secret, facebook_page, facebook_size, facebook_imagemargin, facebook_floating, facebook_author
+                id, facebook_appid, facebook_secret, facebook_page, facebook_size, facebook_imagemargin, facebook_floating, facebook_author, facebook_update_time
             FROM
                 tl_calendar
             WHERE
@@ -28,6 +28,7 @@ class ModuleFacebookEvents extends \Module
                 'imageSize'     => $calendars->facebook_size,
                 'imageMargin'   => $calendars->facebook_imagemargin,
                 'imageFloating' => $calendars->facebook_floating,
+                'updateTime'    => $calendars->facebook_update_time,
                 'calendar'      => $calendars->id,
             ]);
 

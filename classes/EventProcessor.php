@@ -2,8 +2,6 @@
 
 namespace Oneup\FacebookEvents;
 
-use Contao\Database;
-use Contao\File;
 use Facebook\GraphObject;
 use GuzzleHttp\Client;
 
@@ -16,7 +14,7 @@ class EventProcessor
     public function __construct(array $config)
     {
         $this->guzzleClient = new Client();
-        $this->database = Database::getInstance();
+        $this->database = \Database::getInstance();
         $this->config = $config;
     }
 
@@ -38,18 +36,19 @@ class EventProcessor
     {
         $varValue = standardize(\String::restoreBasicEntities($input));
 
-        $objAlias = $this->database->prepare("SELECT id FROM tl_calendar_events WHERE alias=?")
+        $objAlias = $this->database->prepare("SELECT id FROM tl_calendar_events WHERE alias = ?")
             ->execute($varValue)
         ;
 
         // Add ID to alias
         if ($objAlias->numRows)
         {
-            $maxId = $this->database->prepare("SELECT MAX(id) FROM tl_calendar_events")
-                ->execute()
+            $maxId = $this->database->prepare("SELECT MAX(id) AS id FROM tl_calendar_events WHERE alias = ?")
+                ->execute($varValue)
             ;
 
-            $varValue .= '-' . $maxId;
+            $maxId->first();
+            $varValue .= '-' . $maxId->id;
         }
 
         return $varValue;
@@ -69,8 +68,6 @@ class EventProcessor
     }
 
     /**
-     * Todo: Author Id
-     *
      * @param GraphObject $data
      * @param GraphObject $image
      */
@@ -199,7 +196,10 @@ class EventProcessor
         // fetch file
         $content = $this->guzzleClient->get($image->getProperty('url'))->getBody();
 
-        $file = new File(sprintf('files/facebook-events/%s.jpg', $id));
+        $parsed = parse_url($image->getProperty('url'));
+        $info = pathinfo($parsed['path']);
+
+        $file = new \File(sprintf('files/facebook-events/%s.%s', $id, $info['extension']));
         $file->write($content);
         $file->close();
 
