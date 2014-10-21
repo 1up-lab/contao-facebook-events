@@ -78,7 +78,6 @@ class Synchronizer
         }
 
         foreach ($data as $event) {
-            var_dump($event->id);
             $detail = $this->call($event->id, null, null, false);
             $image = $this->call(sprintf('%s/picture', $event->id), null, null, false, array('redirect' => false, 'width' => 1920, 'height' => 1280));
 
