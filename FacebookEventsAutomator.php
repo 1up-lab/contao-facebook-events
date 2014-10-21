@@ -1,8 +1,16 @@
 <?php
 
-namespace Oneup\FacebookEvents;
+/**
+ * Disclaimer: I'm deeply impressed on how fucked up the autoloading
+ * on a cron job works (or doesn't work, depending on how much you
+ * have abandoned your hope).
+ *
+ * I'm questioning my sanity.
+ */
 
-class Automator
+use Oneup\FacebookEvents\Synchronizer;
+
+class FacebookEventsAutomator
 {
     public function synchronizeCalendars()
     {
