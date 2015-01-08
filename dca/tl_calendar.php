@@ -35,7 +35,8 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] += array(
         'search'                  => true,
         'inputType'               => 'text',
         'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
-        'sql'                     => "varchar(255) NOT NULL default ''"
+        'sql'
+        => "varchar(255) NOT NULL default ''"
     ),
     'facebook_size' => array
     (
