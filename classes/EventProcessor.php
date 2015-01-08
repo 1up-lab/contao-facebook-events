@@ -43,12 +43,23 @@ class EventProcessor
         // Add ID to alias
         if ($objAlias->numRows)
         {
-            $maxId = $this->database->prepare("SELECT MAX(id) AS id FROM tl_calendar_events WHERE alias = ?")
-                ->execute($varValue)
-            ;
+            $i = 1;
 
-            $maxId->first();
-            $varValue .= '-' . $maxId->id;
+            while (true) {
+                $objAlias = $this->database->prepare("SELECT id FROM tl_calendar_events WHERE alias = ?")
+                    ->execute($varValue . '-' . $i)
+                ;
+
+                // D'oh, this alias was found
+                if ($objAlias->numRows) {
+                    $i++;
+                    continue;
+                }
+
+                $varValue .= '-' . $i;
+
+                break;
+            }
         }
 
         return $varValue;

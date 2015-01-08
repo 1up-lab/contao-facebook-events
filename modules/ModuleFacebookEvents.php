@@ -3,12 +3,12 @@
 namespace Oneup\FacebookEvents\Module;
 
 use Contao\Database;
-use Oneup\FacebookEvents\Automator;
+use FacebookEventsAutomator;
 
 class ModuleFacebookEvents extends \Module
 {
     public function compile()
     {
-        (new Automator())->synchronizeCalendars();
+        (new FacebookEventsAutomator())->synchronizeCalendars();
     }
 }
