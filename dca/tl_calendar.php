@@ -1,5 +1,14 @@
 <?php
 
+$GLOBALS['TL_DCA']['tl_calendar']['list']['operations'] += array(
+    'facebook_update' => array
+    (
+        'label'               => &$GLOBALS['TL_LANG']['tl_calendar']['facebook_update'],
+        'href'                => 'key=update_events',
+        'icon'                => 'system/modules/facebook-events/assets/img/update_events.gif'
+    ),
+);
+
 $GLOBALS['TL_DCA']['tl_calendar']['fields'] += array(
     'facebook_synced' => array
     (
@@ -102,3 +111,20 @@ $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] += array
 (
     'facebook_synced' => 'facebook_page,facebook_appid,facebook_secret,facebook_author,facebook_update_time,facebook_size,facebook_imagemargin,facebook_floating'
 );
+
+class tl_facebook_events extends Backend
+{
+    /**
+     * Import the back end user object
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->import('BackendUser', 'User');
+    }
+
+    public function synchronizeCalendars($href, $label, $title, $class, $attributes)
+    {
+        return ($this->User->isAdmin || !empty($this->User->calendars) || $this->User->hasAccess('create', 'calendars')) ? '<a href="'.$this->addToUrl($href).'" class="'.$class.'" title="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : '';
+    }
+}

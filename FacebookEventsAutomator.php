@@ -10,8 +10,13 @@
 
 use Oneup\FacebookEvents\Synchronizer;
 
-class FacebookEventsAutomator
+class FacebookEventsAutomator extends \Backend
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function synchronizeCalendars()
     {
         $database = \Database::getInstance();
@@ -39,5 +44,11 @@ class FacebookEventsAutomator
 
             $synchronizer->run();
         }
+    }
+
+    public function updateEvents()
+    {
+        $this->synchronizeCalendars();
+        $this->redirect($this->getReferer());
     }
 }

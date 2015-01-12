@@ -29,6 +29,11 @@ class Synchronizer
     {
         $graphObject    = $this->call('events');
 
+        if (count($graphObject->getProperty('data')) < 1) {
+            \System::log('A Facebook event update was performed. Number of synchronized events: 0', 'FacebookEvents\Synchronizer::run', 'CRON');
+            return;
+        }
+
         $data           = $graphObject->getProperty('data')->asArray();
         $paging         = $graphObject->getProperty('paging');
 
@@ -72,11 +77,6 @@ class Synchronizer
             $data           = array_merge($data, $dataNew->asArray());
         }
 
-        if (count($data) <= 0) {
-            // nothing to do
-            return;
-        }
-
         foreach ($data as $event) {
             $detail = $this->call($event->id, null, null, false);
             $image = $this->call(sprintf('%s/picture', $event->id), null, null, false, array('redirect' => false, 'width' => 1920, 'height' => 1280));
@@ -84,6 +84,8 @@ class Synchronizer
             // process event
             $this->processor->process($detail, $image);
         }
+
+        \System::log('A Facebook event update was performed. Number of synchronized events: ' . count($data), 'FacebookEvents\Synchronizer::run', 'CRON');
     }
 
     protected function call($namespace, $before = null, $after = null, $includePage = true, array $parameters = array())

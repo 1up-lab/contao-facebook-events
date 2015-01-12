@@ -2,6 +2,14 @@
 <xliff version="1.1">
     <file datatype="php" original="system/modules/calendar/languages/en/tl_calendar.php" source-language="en">
         <body>
+            <trans-unit id="tl_calendar.facebook_update.0">
+                <source>Update events</source>
+                <target>Update Events</target>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebook_update.1">
+                <source>Update events in calendar with ID %s</source>
+                <target>Update Events im Kalendar ID %s</target>
+            </trans-unit>
             <trans-unit id="tl_calendar.facebook_synced.0">
                 <source>Synchronise with Facebook</source>
                 <target>Kalender mit Facebook synchronisieren</target>
