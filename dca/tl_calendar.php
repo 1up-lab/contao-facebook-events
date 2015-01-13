@@ -130,6 +130,6 @@ class tl_facebook_events extends Backend
 
         $href = 'key=update_events';
 
-        return ($this->User->isAdmin || !empty($this->User->calendars) || $this->User->hasAccess('create', 'calendars')) ? '<a href="'.$this->addToUrl($href).'" class="'.$class.'" title="'.specialchars($title).'"'.$attributes.'><img src="system/modules/facebook-events/assets/img/update_events.gif" width="16" height="16" alt="'.$label.'"></a> ' : '';
+        return ($this->User->isAdmin || !empty($this->User->calendars) || $this->User->hasAccess('create', 'calendars')) ? '<a href="'.$this->addToUrl($href).'" class="'.$class.'" title="'.specialchars($title).'"'.$attributes.'><img src="system/modules/facebook-events/assets/img/update_events.png" width="16" height="16" alt="'.$label.'"></a> ' : '';
     }
 }
