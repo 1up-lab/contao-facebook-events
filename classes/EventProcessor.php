@@ -30,7 +30,7 @@ class EventProcessor
 
         $this->createEvent($data, $image);
         return;
-     }
+    }
 
     protected function generateAlias($input)
     {
@@ -91,7 +91,7 @@ class EventProcessor
 
         $this->database->prepare("
             INSERT INTO tl_calendar_events
-                (pid, tstamp, title, alias, author, addTime, startTime, startDate, endTime, endDate, teaser, addImage, singleSRC, size, floating, imagemargin, published, facebook_id)
+                (pid, tstamp, title, alias, author, addTime, startTime, startDate, endTime, endDate, location, teaser, addImage, singleSRC, size, floating, imagemargin, published, facebook_id)
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 
@@ -110,6 +110,8 @@ class EventProcessor
                 $timestamps['startDate'],
                 $timestamps['endTime'],
                 $timestamps['endDate'],
+
+                $data->getProperty('location'),
 
                 sprintf('<p>%s</p>', $data->getProperty('description')),
 
@@ -165,7 +167,7 @@ class EventProcessor
 
         $file = $this->writePicture($data->getProperty('id'), $image);
 
-        $this->database->prepare('UPDATE tl_calendar_events SET title = ?, teaser = ?, singleSRC = ?, addTime = ?, startTime = ?, startDate = ?, endTime = ?, endDate = ? WHERE facebook_id = ?')
+        $this->database->prepare('UPDATE tl_calendar_events SET title = ?, teaser = ?, singleSRC = ?, addTime = ?, startTime = ?, startDate = ?, endTime = ?, endDate = ?, location = ? WHERE facebook_id = ?')
             ->execute(
                 $data->getProperty('name'),
                 sprintf('<p>%s</p>', $data->getProperty('description')),
@@ -177,6 +179,8 @@ class EventProcessor
                 $timestamps['startDate'],
                 $timestamps['endTime'],
                 $timestamps['endDate'],
+
+                $data->getProperty('location'),
 
                 $data->getProperty('id')
             )
