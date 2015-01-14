@@ -147,7 +147,7 @@ class EventProcessor
                 time(),
                 'text',
                 serialize(array('unit' => 'h1', 'value' => $data->getProperty('name'))),
-                sprintf('<p>%s</p>', $data->getProperty('description')),
+                sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
                 'above',
                 'ascending',
                 4,
