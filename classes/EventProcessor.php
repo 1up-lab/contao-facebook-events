@@ -222,21 +222,20 @@ class EventProcessor
         $start = new \DateTime($data->getProperty('start_time'));
         $addTime = !in_array('end_time', $data->getPropertyNames()) ? '' : '1';
 
-        $offset = $start->getTimezone()->getOffset($start);
         $startDate = new \DateTime($start->format('Y-m-d'));
-        $startDate = $startDate->modify(sprintf('+%s seconds', $offset))->format('U');
+        $startDate = $startDate->format('U');
 
         $startTime = $start;
-        $startTime = $startTime->modify(sprintf('+%s seconds', $offset))->format('U');
+        $startTime = $startTime->format('U');
 
         if (in_array('end_time', $data->getPropertyNames())) {
             $end = new \DateTime($data->getProperty('end_time'));
 
             $endDate = new \DateTime($end->format('Y-m-d'));
-            $endDate = $endDate->modify(sprintf('+%s seconds', $offset))->format('U');
+            $endDate = $endDate->format('U');
 
             $endTime = $end;
-            $endTime = $endTime->modify(sprintf('+%s seconds', $offset))->format('U');
+            $endTime = $endTime->format('U');
         } else {
             $endDate = $startDate;
             $endTime = $startTime;
