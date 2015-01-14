@@ -223,8 +223,13 @@ class EventProcessor
 
     protected function getTimestamps(GraphObject $data)
     {
+        $addTime = '1';
+
+        if (!in_array('end_time', $data->getPropertyNames()) && !in_array('start_time', $data->getPropertyNames())) {
+            $addTime = '';
+        }
+
         $start = new \DateTime($data->getProperty('start_time'));
-        $addTime = !in_array('end_time', $data->getPropertyNames()) ? '' : '1';
 
         $startDate = new \DateTime($start->format('Y-m-d'));
         $startDate = $startDate->format('U');
