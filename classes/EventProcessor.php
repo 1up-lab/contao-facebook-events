@@ -170,7 +170,7 @@ class EventProcessor
         $this->database->prepare('UPDATE tl_calendar_events SET title = ?, teaser = ?, singleSRC = ?, addTime = ?, startTime = ?, startDate = ?, endTime = ?, endDate = ?, location = ? WHERE facebook_id = ?')
             ->execute(
                 $data->getProperty('name'),
-                sprintf('<p>%s</p>', $data->getProperty('description')),
+                sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
                 $file->uuid,
 
                 // Timestamps
@@ -190,7 +190,7 @@ class EventProcessor
         $this->database->prepare('UPDATE tl_content SET headline = ?, text = ? WHERE type = ? AND pid = ? AND ptable = ?')
             ->execute(
                 serialize(array('unit' => 'h1', 'value' => $data->getProperty('name'))),
-                sprintf('<p>%s</p>', $data->getProperty('description')),
+                sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
                 'text',
                 $eventObj->id,
                 'tl_calendar_events'
