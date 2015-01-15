@@ -113,7 +113,7 @@ class EventProcessor
 
                 $data->getProperty('location'),
 
-                sprintf('<p>%s</p>', $data->getProperty('description')),
+                sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
 
                 // Add singleSRC
                 1,
