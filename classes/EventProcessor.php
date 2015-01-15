@@ -93,7 +93,7 @@ class EventProcessor
             INSERT INTO tl_calendar_events
                 (pid, tstamp, title, alias, author, addTime, startTime, startDate, endTime, endDate, location, teaser, addImage, singleSRC, size, floating, imagemargin, published, facebook_id)
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 
             ->execute(
                 $this->config['calendar'],
