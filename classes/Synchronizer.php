@@ -79,7 +79,7 @@ class Synchronizer
 
         foreach ($data as $event) {
             $detail = $this->call($event->id, null, null, false);
-            $image = $this->call(sprintf('%s/picture', $event->id), null, null, false, array('redirect' => false, 'width' => 1920, 'height' => 1280));
+            $image = $this->call(sprintf('%s?fields=cover', $event->id), null, null, false, array('redirect' => false, 'width' => 1920, 'height' => 1280));
 
             // process event
             $this->processor->process($detail, $image);
