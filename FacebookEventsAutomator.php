@@ -40,6 +40,7 @@ class FacebookEventsAutomator extends \Backend
                 'imageFloating' => $calendars->facebook_floating,
                 'updateTime'    => $calendars->facebook_update_time,
                 'calendar'      => $calendars->id,
+                'apiVersion'    => 'v2.0',
             ]);
 
             $synchronizer->run();

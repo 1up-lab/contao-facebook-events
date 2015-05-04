@@ -105,7 +105,7 @@ class Synchronizer
         }
 
         // create the request object
-        $request = new FacebookRequest($this->session, 'GET', $address, $parameters);
+        $request = new FacebookRequest($this->session, 'GET', $address, $parameters, $this->config['apiVersion']);
         $graphObject = $request->execute()->getGraphObject();
 
         return $graphObject;

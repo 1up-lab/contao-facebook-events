@@ -208,10 +208,16 @@ class EventProcessor
      */
     protected function writePicture($id, GraphObject $image)
     {
-        // fetch file
-        $content = $this->guzzleClient->get($image->getProperty('url'))->getBody();
+        if (!$image->getProperty('cover') instanceof GraphObject) {
+            return null;
+        }
 
-        $parsed = parse_url($image->getProperty('url'));
+        $url = $image->getProperty('cover')->getProperty('source');
+
+        // fetch file
+        $content = $this->guzzleClient->get($url)->getBody();
+
+        $parsed = parse_url($url);
         $info = pathinfo($parsed['path']);
 
         $file = new \File(sprintf('files/facebook-events/%s.%s', $id, $info['extension']));
