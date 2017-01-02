@@ -1,7 +1,10 @@
 <?php
 
-namespace Oneup\FacebookEvents;
+namespace Oneup\Contao\FacebookEvents;
 
+use Contao\File;
+use Contao\StringUtil;
+use Contao\Database;
 use Facebook\GraphObject;
 use GuzzleHttp\Client;
 
@@ -14,7 +17,7 @@ class EventProcessor
     public function __construct(array $config)
     {
         $this->guzzleClient = new Client();
-        $this->database = \Database::getInstance();
+        $this->database = Database::getInstance();
         $this->config = $config;
     }
 
@@ -25,29 +28,30 @@ class EventProcessor
         // check if event exists
         if (null !== ($event = $this->checkIfEventExists($facebookId))) {
             $this->updateEvent($event, $data, $image);
+
             return;
         }
 
         $this->createEvent($data, $image);
+
         return;
     }
 
     protected function generateAlias($input)
     {
-        $varValue = standardize(\String::restoreBasicEntities($input));
+        $varValue = standardize(StringUtil::restoreBasicEntities($input));
 
         $objAlias = $this->database->prepare("SELECT id FROM tl_calendar_events WHERE alias = ?")
             ->execute($varValue)
         ;
 
         // Add ID to alias
-        if ($objAlias->numRows)
-        {
+        if ($objAlias->numRows) {
             $i = 1;
 
             while (true) {
                 $objAlias = $this->database->prepare("SELECT id FROM tl_calendar_events WHERE alias = ?")
-                    ->execute($varValue . '-' . $i)
+                    ->execute($varValue.'-'.$i)
                 ;
 
                 // D'oh, this alias was found
@@ -56,7 +60,7 @@ class EventProcessor
                     continue;
                 }
 
-                $varValue .= '-' . $i;
+                $varValue .= '-'.$i;
 
                 break;
             }
@@ -203,7 +207,7 @@ class EventProcessor
      * return the file model including the uuid.
      *
      * @param $id
-     * @param GraphObject $image
+     * @param  GraphObject $image
      * @return \FilesModel
      */
     protected function writePicture($id, GraphObject $image)
@@ -220,7 +224,7 @@ class EventProcessor
         $parsed = parse_url($url);
         $info = pathinfo($parsed['path']);
 
-        $file = new \File(sprintf('files/facebook-events/%s.%s', $id, $info['extension']));
+        $file = new File(sprintf('files/facebook-events/%s.%s', $id, $info['extension']));
         $file->write($content);
         $file->close();
 

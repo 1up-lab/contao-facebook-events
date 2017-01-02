@@ -1,7 +1,8 @@
 <?php
 
-namespace Oneup\FacebookEvents;
+namespace Oneup\Contao\FacebookEvents;
 
+use Contao\System;
 use Facebook\FacebookSession;
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
@@ -30,7 +31,8 @@ class Synchronizer
         $graphObject    = $this->call('events');
 
         if (count($graphObject->getProperty('data')) < 1) {
-            \System::log('A Facebook event update was performed. Number of synchronized events: 0', 'FacebookEvents\Synchronizer::run', 'CRON');
+            System::log('A Facebook event update was performed. Number of synchronized events: 0', 'FacebookEvents\Synchronizer::run', 'CRON');
+
             return;
         }
 
@@ -48,8 +50,12 @@ class Synchronizer
             $cursorBefore   = null;
             $dataNew        = $graphObject->getProperty('data');
 
-            if (null === $dataNew) break;
-            if ($this->isOlderThanConfigured($dataNew->getProperty(0))) break;
+            if (null === $dataNew) {
+                break;
+            }
+            if ($this->isOlderThanConfigured($dataNew->getProperty(0))) {
+                break;
+            }
 
             /** @var GraphObject $paging */
             $paging         = $graphObject->getProperty('paging');
@@ -65,8 +71,12 @@ class Synchronizer
             $cursorAfter    = null;
             $dataNew        = $graphObject->getProperty('data');
 
-            if (null === $dataNew) break;
-            if ($this->isOlderThanConfigured($dataNew->getProperty(0))) break;
+            if (null === $dataNew) {
+                break;
+            }
+            if ($this->isOlderThanConfigured($dataNew->getProperty(0))) {
+                break;
+            }
 
             /** @var GraphObject $paging */
             $paging         = $graphObject->getProperty('paging');
@@ -85,7 +95,7 @@ class Synchronizer
             $this->processor->process($detail, $image);
         }
 
-        \System::log('A Facebook event update was performed. Number of synchronized events: ' . count($data), 'FacebookEvents\Synchronizer::run', 'CRON');
+        System::log('A Facebook event update was performed. Number of synchronized events: '.count($data), 'FacebookEvents\Synchronizer::run', 'CRON');
     }
 
     protected function call($namespace, $before = null, $after = null, $includePage = true, array $parameters = array())
@@ -97,11 +107,11 @@ class Synchronizer
         }
 
         if (null !== $after) {
-            $address = sprintf($address . 'after=%s&', $after);
+            $address = sprintf($address.'after=%s&', $after);
         }
 
         if (null !== $before) {
-            $address = sprintf($address . 'before=%s&', $before);
+            $address = sprintf($address.'before=%s&', $before);
         }
 
         // create the request object
@@ -115,7 +125,7 @@ class Synchronizer
      * Check whether the provided data object is older than
      * the configured update period.
      *
-     * @param GraphObject $data
+     * @param  GraphObject $data
      * @return bool
      */
     protected function isOlderThanConfigured(GraphObject $data)

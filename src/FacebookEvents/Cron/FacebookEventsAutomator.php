@@ -1,16 +1,12 @@
 <?php
 
-/**
- * Disclaimer: I'm deeply impressed on how fucked up the autoloading
- * on a cron job works (or doesn't work, depending on how much you
- * have abandoned your hope).
- *
- * I'm questioning my sanity.
- */
+namespace Oneup\Contao\FacebookEvents\Cron;
 
-use Oneup\FacebookEvents\Synchronizer;
+use Contao\Backend;
+use Contao\Database;
+use Oneup\Contao\FacebookEvents\Synchronizer;
 
-class FacebookEventsAutomator extends \Backend
+class FacebookEventsAutomator extends Backend
 {
     public function __construct()
     {
@@ -19,7 +15,7 @@ class FacebookEventsAutomator extends \Backend
 
     public function synchronizeCalendars()
     {
-        $database = \Database::getInstance();
+        $database = Database::getInstance();
         $calendars = $database->prepare("
             SELECT
                 id, facebook_appid, facebook_secret, facebook_page, facebook_size, facebook_imagemargin, facebook_floating, facebook_author, facebook_update_time
