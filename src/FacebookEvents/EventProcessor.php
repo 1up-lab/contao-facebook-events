@@ -184,7 +184,7 @@ class EventProcessor
                 $timestamps['endTime'],
                 $timestamps['endDate'],
 
-                $data->getProperty('place')->getProperty('name'),
+                $data->getProperty('place') ? $data->getProperty('place')->getProperty('name') : null,
 
                 $data->getProperty('id')
             )
