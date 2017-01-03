@@ -71,7 +71,7 @@ class EventProcessor
 
     protected function checkIfEventExists($facebookId)
     {
-        $result = $this->database->prepare('SELECT * FROM tl_calendar_events WHERE facebook_id=? LIMIT 1')
+        $result = $this->database->prepare('SELECT * FROM tl_calendar_events WHERE facebookEvents_id=? LIMIT 1')
             ->execute($facebookId)
         ;
 
@@ -95,7 +95,7 @@ class EventProcessor
 
         $this->database->prepare("
             INSERT INTO tl_calendar_events
-                (pid, tstamp, title, alias, author, addTime, startTime, startDate, endTime, endDate, location, teaser, addImage, singleSRC, size, floating, imagemargin, published, facebook_id)
+                (pid, tstamp, title, alias, author, addTime, startTime, startDate, endTime, endDate, location, teaser, addImage, singleSRC, size, floating, imagemargin, published, facebookEvents_id)
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 
@@ -132,7 +132,7 @@ class EventProcessor
         ;
 
         // Get the Id of the inserted Event
-        $insertedEvent = $this->database->prepare('SELECT id FROM tl_calendar_events WHERE facebook_id = ?')
+        $insertedEvent = $this->database->prepare('SELECT id FROM tl_calendar_events WHERE facebookEvents_id = ?')
             ->execute($data->getProperty('id'))
         ;
 
@@ -171,7 +171,7 @@ class EventProcessor
 
         $file = $this->writePicture($data->getProperty('id'), $image);
 
-        $this->database->prepare('UPDATE tl_calendar_events SET title = ?, teaser = ?, singleSRC = ?, addTime = ?, startTime = ?, startDate = ?, endTime = ?, endDate = ?, location = ? WHERE facebook_id = ?')
+        $this->database->prepare('UPDATE tl_calendar_events SET title = ?, teaser = ?, singleSRC = ?, addTime = ?, startTime = ?, startDate = ?, endTime = ?, endDate = ?, location = ? WHERE facebookEvents_id = ?')
             ->execute(
                 $data->getProperty('name'),
                 sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
