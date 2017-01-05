@@ -3,7 +3,6 @@
 namespace Oneup\Contao\FacebookEvents;
 
 use Contao\File;
-use Contao\StringUtil;
 use Contao\Database;
 use Facebook\GraphObject;
 use GuzzleHttp\Client;
@@ -39,7 +38,13 @@ class EventProcessor
 
     protected function generateAlias($input)
     {
-        $varValue = standardize(StringUtil::restoreBasicEntities($input));
+        // Use StringUtil class when used Contao version is minimum 3.5.1
+        // see https://github.com/contao/core-bundle/issues/309
+        if (version_compare(VERSION .'.'.BUILD, '3.5.1', '<')) {
+            $varValue = standardize(\String::restoreBasicEntities($input));
+        } else {
+            $varValue = standardize(\StringUtil::restoreBasicEntities($input));
+        }
 
         $objAlias = $this->database->prepare("SELECT id FROM tl_calendar_events WHERE alias = ?")
             ->execute($varValue)
