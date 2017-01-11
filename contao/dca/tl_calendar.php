@@ -160,7 +160,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] += [
 // Register checkbox
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace(
     'jumpTo;',
-    'jumpTo;{facebook_legend:hide},facebookEvents_synced;',
+    'jumpTo;{facebookEvents_legend:hide},facebookEvents_synced;',
     $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default']
 );
 
