@@ -120,7 +120,7 @@ class EventProcessor
                 $timestamps['endTime'],
                 $timestamps['endDate'],
 
-                $data->getProperty('place') ? $data->getProperty('place')->getProperty('name') : null,
+                $data->getProperty('place') ? $data->getProperty('place')->getProperty('name') : '',
 
                 sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
 
@@ -189,7 +189,7 @@ class EventProcessor
                 $timestamps['endTime'],
                 $timestamps['endDate'],
 
-                $data->getProperty('place') ? $data->getProperty('place')->getProperty('name') : null,
+                $data->getProperty('place') ? $data->getProperty('place')->getProperty('name') : '',
 
                 $data->getProperty('id')
             )
