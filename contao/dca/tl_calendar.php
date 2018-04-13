@@ -160,7 +160,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] += [
         'sql' => "varchar(255) NOT NULL default '-1'",
     ],
     'facebookEvents_enableCron' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_settings']['facebookEvents_enableCron'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['facebookEvents_enableCron'],
         'exclude' => true,
         'filter' => true,
         'inputType' => 'checkbox',
