@@ -114,6 +114,11 @@ class Synchronizer
             $address = sprintf($address.'before=%s&', $before);
         }
 
+        if ($this->config['token']) {
+            $parameters['access_token'] = $this->config['token'];
+        }
+
+
         // create the request object
         $request = new FacebookRequest($this->session, 'GET', $address, $parameters, $this->config['apiVersion']);
         $graphObject = $request->execute()->getGraphObject();
