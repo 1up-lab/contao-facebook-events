@@ -35,12 +35,12 @@
                 <target>Geben Sie den Facebook Zugriffsschlüssel ein</target>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_enableCron.0">
-                <source>Activate Cron</source>
-                <target>Cron Aktivieren</target>
+                <source>Activate Cronjob Updating</source>
+                <target>Cronjob-Aktualisierung aktivieren</target>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_enableCron.1">
-                <source>Activates a Cron Job</source>
-                <target>Aktiviert einen Cron-Job</target>
+                <source>Activates automatical updating by the Contao Cronjob</source>
+                <target>Aktiviert die automatische Aktualisierung durch den Contao Cronjob.</target>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_page.0">
                 <source>Page name</source>
