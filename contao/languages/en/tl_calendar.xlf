@@ -30,7 +30,7 @@
                 <source>Activate Cronjob Updating</source>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_enableCron.1">
-                <source>Activates automatical updating by the Contao Cronjob.</source>
+                <source>Activates automatic updating by the Contao Cronjob.</source>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_page.0">
                 <source>Page Name</source>

@@ -39,7 +39,7 @@
                 <target>Cronjob-Aktualisierung aktivieren</target>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_enableCron.1">
-                <source>Activates automatical updating by the Contao Cronjob.</source>
+                <source>Activates automatic updating by the Contao Cronjob.</source>
                 <target>Aktiviert die automatische Aktualisierung durch den Contao Cronjob.</target>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_page.0">
