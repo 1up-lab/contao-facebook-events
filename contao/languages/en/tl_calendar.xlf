@@ -27,7 +27,7 @@
                 <source>Enter the Facebook Access Token.</source>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_enableCron.0">
-                <source>Activate Cron</source>
+                <source>Activates a Cron Job</source>
             </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_enableCron.1">
                 <source>Activates a Cron Job</source>
