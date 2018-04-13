@@ -23,6 +23,9 @@
             <trans-unit id="tl_calendar.facebookEvents_accessToken.0">
                 <source>Access Token</source>
             </trans-unit>
+            <trans-unit id="tl_calendar.facebookEvents_accessToken.1">
+                <source>Enter the Facebook Access Token.</source>
+            </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_page.0">
                 <source>Page Name</source>
             </trans-unit>
