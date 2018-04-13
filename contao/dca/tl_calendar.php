@@ -76,6 +76,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] += [
         'reference' => &$GLOBALS['TL_LANG']['MSC'],
         'eval' => [
             'rgxp' => 'digit',
+            'includeBlankOption' => true,
             'nospace' => true,
             'helpwizard' => true,
             'tl_class' => 'w50',
@@ -181,6 +182,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace(
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'facebookEvents_synced';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] += [
     'facebookEvents_synced' => 'facebookEvents_page,facebookEvents_appId,facebookEvents_accessToken,facebookEvents_secret,facebookEvents_author,
-                                facebookEvents_updateTime,facebookEvents_size,facebookEvents_imagemargin,
+                                facebookEvents_updateTime,facebookEvents_size,facebookEvents_imageMargin,
                                 facebookEvents_floating,facebookEvents_enableCron',
 ];

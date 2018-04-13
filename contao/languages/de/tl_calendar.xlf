@@ -34,6 +34,14 @@
                 <source>Enter the Facebook Access Token.</source>
                 <target>Geben Sie den Facebook Zugriffsschlüssel ein</target>
             </trans-unit>
+            <trans-unit id="tl_calendar.facebookEvents_enableCron.0">
+                <source>Activate Cron</source>
+                <target>Cron Aktivieren</target>
+            </trans-unit>
+            <trans-unit id="tl_calendar.facebookEvents_enableCron.1">
+                <source>Activates a Cron Job</source>
+                <target>Aktiviert einen Cron-Job</target>
+            </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_page.0">
                 <source>Page name</source>
                 <target>Page-Name</target>
