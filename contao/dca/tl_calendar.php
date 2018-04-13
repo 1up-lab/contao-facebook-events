@@ -44,6 +44,19 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] += [
         ],
         'sql' => "varchar(255) NOT NULL default ''",
     ],
+    'facebookEvents_accessToken' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['facebookEvents_accessToken'],
+        'exclude' => true,
+        'search' => true,
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 255,
+            'cols' => 4,
+            'tl_class' => 'w50',
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ],
     'facebookEvents_page' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['facebookEvents_page'],
         'exclude' => true,
@@ -167,7 +180,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace(
 // Register subpalettes
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'facebookEvents_synced';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] += [
-    'facebookEvents_synced' => 'facebookEvents_page,facebookEvents_appId,facebookEvents_secret,facebookEvents_author,
+    'facebookEvents_synced' => 'facebookEvents_page,facebookEvents_appId,facebookEvents_accessToken,facebookEvents_secret,facebookEvents_author,
                                 facebookEvents_updateTime,facebookEvents_size,facebookEvents_imagemargin,
                                 facebookEvents_floating,facebookEvents_enableCron',
 ];

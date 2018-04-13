@@ -26,6 +26,10 @@
                 <source>Application Secret</source>
                 <target>Application Secret</target>
             </trans-unit>
+            <trans-unit id="tl_calendar.facebookEvents_accessToken.0">
+                <source>Access Token</source>
+                <target>Zugriffsschlüssel</target>
+            </trans-unit>
             <trans-unit id="tl_calendar.facebookEvents_page.0">
                 <source>Page name</source>
                 <target>Page-Name</target>

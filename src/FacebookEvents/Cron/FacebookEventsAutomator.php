@@ -18,7 +18,7 @@ class FacebookEventsAutomator extends Backend
         $database = Database::getInstance();
         $calendars = $database->prepare("
             SELECT
-                id, facebookEvents_appId, facebookEvents_secret, facebookEvents_page, facebookEvents_size, facebookEvents_imageMargin, facebookEvents_floating, facebookEvents_author, facebookEvents_updateTime
+                id, facebookEvents_appId, facebookEvents_secret, facebookEvents_accessToken, facebookEvents_page, facebookEvents_size, facebookEvents_imageMargin, facebookEvents_floating, facebookEvents_author, facebookEvents_updateTime
             FROM
                 tl_calendar
             WHERE
@@ -29,6 +29,7 @@ class FacebookEventsAutomator extends Backend
             $synchronizer = new Synchronizer([
                 'id'            => $calendars->facebookEvents_appId,
                 'secret'        => $calendars->facebookEvents_secret,
+                'token'         => $calendars->facebookEvents_accessToken,
                 'page'          => $calendars->facebookEvents_page,
                 'author'        => $calendars->facebookEvents_author,
                 'imageSize'     => $calendars->facebookEvents_size,
